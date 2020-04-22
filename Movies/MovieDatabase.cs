@@ -167,5 +167,47 @@ namespace Movies
             }
             return results;
         }
+
+        /// <summary>
+        /// Filters the collection of movies to those within the given range of Rotten Tomatoes Ratings
+        /// </summary>
+        /// <param name="movies"> The list of movies to be filtered </param>
+        /// <param name="min"> The minimum value of the range </param>
+        /// <param name="max"> The maximum value of the range </param>
+        /// <returns> A collection of movies within the given range </returns>
+        public static IEnumerable<Movie> FilterByRottenTomatoesRating(IEnumerable<Movie> movies, double? min, double? max)
+        {
+            if (min == null && max == null) return movies;
+
+            var results = new List<Movie>();
+
+            if(min == null)
+            {
+                foreach (Movie movie in movies)
+                {
+                    if (movie.RottenTomatoesRating <= max) results.Add(movie);
+                }
+                return results;
+            }
+
+            if(max == null)
+            {
+                foreach(Movie movie in movies)
+                {
+                    if (movie.RottenTomatoesRating >= min) results.Add(movie);
+                }
+                return results;
+            }
+
+            foreach(Movie movie in movies)
+            {
+                if(movie.RottenTomatoesRating <= max && movie.RottenTomatoesRating >= min)
+                {
+                    results.Add(movie);
+                }
+            }
+
+            return results;
+        }
     }
 }

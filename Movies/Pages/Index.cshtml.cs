@@ -40,10 +40,14 @@ namespace Movies.Pages
         /// </summary>
         public double? IMDBMax { get; set; }
 
+        public double? RottenTomatoesMin { get; set; }
+
+        public double? RottenTomatoesMax { get; set; }
+
         /// <summary>
         /// Does the response initialization for incoming GET requests
         /// </summary>
-        public void OnGet(double? IMDBMin, double? IMDBMax)
+        public void OnGet(double? IMDBMin, double? IMDBMax, double? RottenTomatoesMin, double? RottenTomatoesMax)
         {
             SearchTerms = Request.Query["SearchTerms"];
             MPAARatings = Request.Query["MPAARatings"];
@@ -51,10 +55,13 @@ namespace Movies.Pages
             // Nullable conversion workaround
             this.IMDBMin = IMDBMin;
             this.IMDBMax = IMDBMax;
+            this.RottenTomatoesMax = RottenTomatoesMax;
+            this.RottenTomatoesMin = RottenTomatoesMin;
             Movies = MovieDatabase.Search(SearchTerms);
             Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARatings);
             Movies = MovieDatabase.FilterByGenre(Movies, Genres);
             Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
+            Movies = MovieDatabase.FilterByRottenTomatoesRating(Movies, RottenTomatoesMin, RottenTomatoesMax);
         }
     }
 }
