@@ -4,7 +4,11 @@
     ViewData["Title"] = "Home page";
 }
 
-<h1>Movies</h1>
+<form>
+    <input type="text" name="SearchTerms"/>
+    <input type="submit" value="Search"/>
+</form>
+<h1>Movie Results</h1>
 <ul class="movie-list">
     @foreach(Movie movie in MovieDatabase.All)
     {
