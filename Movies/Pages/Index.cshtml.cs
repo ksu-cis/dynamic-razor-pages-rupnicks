@@ -24,12 +24,15 @@ namespace Movies.Pages
         /// </summary>
         public string[] MPAARatings { get; set; }
 
+        public string[] Genres { get; set; }
+
         public void OnGet()
         {
             SearchTerms = Request.Query["SearchTerms"];
             MPAARatings = Request.Query["MPAARatings"];
             Movies = MovieDatabase.Search(SearchTerms);
             Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARatings);
+            Movies = MovieDatabase.FilterByGenre(Movies, Genres);
         }
     }
 }
