@@ -10,7 +10,7 @@
 </form>
 <h1>Movie Results</h1>
 <ul class="movie-list">
-    @foreach(Movie movie in MovieDatabase.All)
+    @foreach(Movie movie in @Model.Movies)
     {
         <li>
             <div class="details">
