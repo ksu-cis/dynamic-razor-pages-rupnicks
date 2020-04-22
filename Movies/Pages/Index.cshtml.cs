@@ -19,9 +19,15 @@ namespace Movies.Pages
         /// </summary>
         public IEnumerable<Movie> Movies { get; protected set; }
 
+        /// <summary>
+        /// The filtered MPAA Ratings
+        /// </summary>
+        public string[] MPAARatings { get; set; }
+
         public void OnGet()
         {
             SearchTerms = Request.Query["SearchTerms"];
+            MPAARatings = Request.Query["MPAARatings"];
             Movies = MovieDatabase.Search(SearchTerms);
         }
     }

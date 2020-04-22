@@ -51,5 +51,20 @@ namespace Movies
             }
             return results;
         }
+
+        /// <summary>
+        /// Gets possible MPAA Rating
+        /// </summary>
+        public static string[] MPAARatings
+        {
+            get => new string[]
+            {
+                "G",
+                "PG",
+                "PG-13",
+                "R",
+                "NC-17"
+            };
+        }
     }
 }
