@@ -66,5 +66,27 @@ namespace Movies
                 "NC-17"
             };
         }
+
+        /// <summary>
+        /// Filters the provided collection of movies
+        /// </summary>
+        /// <param name="movies"> The collection of movies to filter </param>
+        /// <param name="ratings"> The ratings to include </param>
+        /// <returns> A collection of movies that match the filter </returns>
+        public static IEnumerable<Movie> FilterByMPAARating(IEnumerable<Movie> movies, IEnumerable<string> ratings)
+        {
+            if (ratings == null || ratings.Count() == 0) return movies;
+
+            List<Movie> results = new List<Movie>();
+            foreach(Movie movie in movies)
+            {
+                if (movie.MPAARating != null && ratings.Contains(movie.MPAARating))
+                {
+                    results.Add(movie);
+                }
+            }
+
+            return results;
+        }
     }
 }
