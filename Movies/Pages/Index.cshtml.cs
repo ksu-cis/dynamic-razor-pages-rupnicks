@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq;
 
 namespace Movies.Pages
 {
@@ -57,11 +58,58 @@ namespace Movies.Pages
             this.IMDBMax = IMDBMax;
             this.RottenTomatoesMax = RottenTomatoesMax;
             this.RottenTomatoesMin = RottenTomatoesMin;
-            Movies = MovieDatabase.Search(SearchTerms);
-            Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARatings);
-            Movies = MovieDatabase.FilterByGenre(Movies, Genres);
-            Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
-            Movies = MovieDatabase.FilterByRottenTomatoesRating(Movies, RottenTomatoesMin, RottenTomatoesMax);
+
+            Movies = MovieDatabase.All;
+            //Search movie titles for search terms
+            if(SearchTerms != null)
+            {
+                //Movies = MovieDatabase.All.Where(movie => movie.Title != null && movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase));
+                Movies = from movie in Movies
+                         where movie.Title != null &&
+                         movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase)
+                         select movie;
+            }
+            //Filter by MPAARating
+            if(MPAARatings != null && MPAARatings.Length != 0)
+            {
+                Movies = Movies.Where(movie =>
+                movie.MPAARating != null &&
+                MPAARatings.Contains(movie.MPAARating)
+                );
+            }
+            //Filter by Genre
+            if(Genres != null && Genres.Length != 0)
+            {
+                Movies = Movies.Where(movie =>
+                movie.MajorGenre != null &&
+                Genres.Contains(movie.MajorGenre)
+                );
+            }
+            //Movies = MovieDatabase.FilterByGenre(Movies, Genres);
+            //Filter by IMDBRating
+            if(IMDBMin != null)
+            {
+                Movies = Movies.Where(movie =>
+                movie.IMDBRating >= IMDBMin);
+            }
+            if(IMDBMax != null)
+            {
+                Movies = Movies.Where(movie =>
+                movie.IMDBRating <= IMDBMax);
+            }
+            //Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
+            //Filter by Rotten Tomatoes
+            if(RottenTomatoesMax != null)
+            {
+                Movies = Movies.Where(movie =>
+                movie.RottenTomatoesRating <= RottenTomatoesMax);
+            }
+            if(RottenTomatoesMin != null)
+            {
+                Movies = Movies.Where(movie =>
+                movie.RottenTomatoesRating >= RottenTomatoesMin);
+            }
+            //Movies = MovieDatabase.FilterByRottenTomatoesRating(Movies, RottenTomatoesMin, RottenTomatoesMax);
         }
     }
 }
